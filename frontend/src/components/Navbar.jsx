@@ -1,24 +1,27 @@
-/** @jsxImportSource @emotion/react */
-import styled from '@emotion/styled'
-
-const Bar = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background: white;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-`
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
+  const adminToken = localStorage.getItem('admin_token')
+
   return (
-    <Bar>
-      <span style={{ fontWeight: 700, color: '#2563eb' }}>ReactBoiler</span>
-      <div style={{ display: 'flex', gap: 16 }}>
-        <a href="#features">Features</a>
-        <a href="#docs">Docs</a>
-        <a href="#about">About</a>
+    <nav className="flex justify-between items-center px-6 py-4 bg-white shadow-sm">
+      <Link to="/" className="font-bold text-lg text-indigo-600">
+        SocialBunny
+      </Link>
+      <div className="flex gap-4 text-sm">
+        <Link to="/register" className="text-gray-600 hover:text-indigo-600">
+          Register
+        </Link>
+        {adminToken ? (
+          <Link to="/admin/dashboard" className="text-indigo-600 font-medium">
+            Dashboard
+          </Link>
+        ) : (
+          <Link to="/admin/login" className="text-gray-600 hover:text-indigo-600">
+            Admin Login
+          </Link>
+        )}
       </div>
-    </Bar>
+    </nav>
   )
 }

@@ -40,6 +40,7 @@ class AdminInfo(BaseModel):
     role: str
     referral_code: str
     referral_count: int
+    referral_link: str
 
 
 # ── Google OAuth ─────────────────────────────────────────────
@@ -77,3 +78,78 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# ── Students Corner ──────────────────────────────────────────
+
+class TopicCreate(BaseModel):
+    title: str
+    content: str
+    author: str
+
+class TopicPreview(BaseModel):
+    id: int
+    title: str
+    author: str
+    created_at: datetime
+    preview: str
+
+class TopicDetail(BaseModel):
+    id: int
+    title: str
+    content: str
+    author: str
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class TopicListResponse(BaseModel):
+    total: int
+    limit: int
+    offset: int
+    topics: list[TopicPreview]
+
+
+# ── News Feeder ──────────────────────────────────────────────
+
+class NewsItem(BaseModel):
+    title: str
+    link: str
+    summary: str
+    published: Optional[str] = None
+    published_parsed: Optional[str] = None
+
+class NewsResponse(BaseModel):
+    total: int
+    limit: int
+    offset: int
+    items: list[NewsItem]
+
+
+# ── Google Auth Response (includes JWT) ─────────────────────
+
+class GoogleAuthResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int
+    user: UserResponse
+
+
+# ── Admin's Friends List ─────────────────────────────────────
+
+class FriendResponse(BaseModel):
+    id: int
+    name: str
+    email: Optional[str] = None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+class FriendListResponse(BaseModel):
+    admin_id: int
+    admin_name: str
+    total: int
+    friends: list[FriendResponse]

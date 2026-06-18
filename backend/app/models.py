@@ -49,3 +49,18 @@ class User(Base):
         backref=backref("referrals", lazy="dynamic"),
     )
 
+    @property
+    def is_onboarded(self) -> bool:
+        return bool(self.phone and self.interest)
+
+
+class Topic(Base):
+    __tablename__ = "topics"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), index=True)
+    content = Column(Text)
+    author = Column(String(100))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
